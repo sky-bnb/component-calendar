@@ -2,12 +2,13 @@
   "name": "component-calendar",
   "version": "1.0.0",
   "description": "booking calendar component",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack -d --watch",
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "seed_data": "node database/seed_data.js"
   },
   "repository": {
     "type": "git",
@@ -20,22 +21,33 @@
   },
   "homepage": "https://github.com/sky-bnb/component-calendar#readme",
   "dependencies": {
+    "@babel/preset-react": "^7.0.0",
     "airbnb-browser-shims": "^3.2.1",
     "babel": "^6.23.0",
+    "babel-loader": "^8.0.6",
+    "body-parser": "^1.19.0",
     "enzyme": "^3.9.0",
     "eslint": "^5.16.0",
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "jest": "^24.8.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mongo": "^0.1.0",
     "puppeteer": "^1.16.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.2"
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
-    "babel-preset-airbnb": "^3.2.1"
-  }
+    "@babel/preset-env": "^7.4.4",
+    "babel-preset-airbnb": "^3.2.1",
+    "mongoose": "^5.5.9",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "main": "index.js",
+  "keywords": []
 }
