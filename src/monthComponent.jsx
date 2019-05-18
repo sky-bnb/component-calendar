@@ -1,5 +1,5 @@
 import React from 'react';
-import dayComponent from './dayComponent.jsx';
+import DayComponent from './dayComponent.jsx';
 
 class MonthComponent extends React.Component {
     constructor(props) {
@@ -12,13 +12,13 @@ class MonthComponent extends React.Component {
     render() {
         return (
             <div>
-                <dayComponent className="day" />
-                <dayComponent className="day" />
-                <dayComponent className="day" />
-                <dayComponent className="day" />
-                <dayComponent className="day" />
-                <dayComponent className="day" />
-                <dayComponent className="day" />
+                <DayComponent className="day" />
+                <DayComponent className="day" />
+                <DayComponent className="day" />
+                <DayComponent className="day" />
+                <DayComponent className="day" />
+                <DayComponent className="day" />
+                <DayComponent className="day" />
             </div>
         )
     }
