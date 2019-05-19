@@ -13,12 +13,6 @@ class MonthComponent extends React.Component {
         return (
             <div>
                 <DayComponent className="day" />
-                <DayComponent className="day" />
-                <DayComponent className="day" />
-                <DayComponent className="day" />
-                <DayComponent className="day" />
-                <DayComponent className="day" />
-                <DayComponent className="day" />
             </div>
         )
     }
