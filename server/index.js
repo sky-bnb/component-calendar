@@ -18,12 +18,14 @@ server.post('/calendar', (req, res) => {
 server.get('/calendar', (req, res) => {
     getReservations(req.body._id, (err, reservations) => {
       if (err) {
-        res.status(404).end(err);
+        res.status(404).
+        res.end(err);
       } else {
-        res.status(200).send(reservations);
+        res.status(200);
+        res.send(reservations);
       }
     });
-  });
+});
 
 server.listen(port, () => console.log(`Port ${port} is listening to requests`));
 
