@@ -1,23 +1,29 @@
 const express = require('express');
-const app = express();
+const server = express();
 const bodyParser = require('body-parser');
 const db = require('../database/index');
+const {getReservations} = require('../database/index');
 
 const port = 3003;
 
-app.use(express.static('./public/dist'));
-app.use(bodyParser.json());
+server.use(express.urlencoded({ extended: true }));
+server.use(express.static('./public/dist'));
+server.use(bodyParser.json());
 
-// app.get('/calendar', function(req, res){
-//     console.log(req.body);
-//     res.send('hello world');
-// });
-
-app.post('/calendar', (req, res) => {
-    console.log("INITIALIZED POST, GOING TO DB...");
+server.post('/calendar', (req, res) => {
     db.addCalendar(req.body);
     res.send();
 });
 
-app.listen(port, () => console.log(`Port ${port} is listening to requests`));
+server.get('/calendar', (req, res) => {
+    getReservations(req.body._id, (err, reservations) => {
+      if (err) {
+        res.status(404).end(err);
+      } else {
+        res.status(200).send(reservations);
+      }
+    });
+  });
+
+server.listen(port, () => console.log(`Port ${port} is listening to requests`));
 
