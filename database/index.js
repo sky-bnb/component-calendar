@@ -1,12 +1,10 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/calendar', { useNewUrlParser: true });
 // let validator = require('validator');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', () => console.log("Calendar Module Connection Open"));
-
-// const getDates = (id, callback) => Calendar.find({ id }, callback);
 
 
 
@@ -30,12 +28,11 @@ const addCalendar = (resObj) => {
         if (err) {
             console.log("There was an error inserting into the mongoDB :", err);
         } else {
-            console.log(`Success! Listing with user_id of ${resObj.id} was added!`);
+            console.log(`Success: User #${resObj.id} was added into the database`);
         }
     });
 };
 
 const getReservations = (id, cb) => Calendar.find({ id }, cb);
-
-
-module.exports = {addCalendar, getReservations};
+const getCount = () => Calendar.estimatedDocumentCount();
+module.exports = {addCalendar, getReservations, getCount, db};
