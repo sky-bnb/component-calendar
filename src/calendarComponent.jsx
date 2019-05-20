@@ -12,7 +12,7 @@ class CalendarModule extends React.Component {
     render() {
         return (
             <div>
-                <h1> "Hello World!"</h1>
+                <h1> "Hello World!" </h1>
                 <MonthComponent className="month" />
                 <MonthComponent className="month" />
             </div>

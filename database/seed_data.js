@@ -1,10 +1,9 @@
 const Calendar = require('../database/index');
-const faker = require('faker');
 const moment = require('moment');
+// const faker = require('faker');
 
-
-var dummyDataGenerator = () => {
-
+//IIFE to generate seed data
+(() => {
     var dateGenerator = () => {
         var arrayOfReservations = [];
         while (arrayOfReservations.length < 40) {
@@ -20,11 +19,9 @@ var dummyDataGenerator = () => {
     let reservations = dateGenerator();
     console.log(reservations);
 
-    // all users/listings will have the same dates reserved / save time
+    // all users/listings will have the same dates reserved
     for (let i = 101; i < 201; i++) {
         var user = {id: i, dates_reserved: reservations};
         Calendar.addCalendar(user);
     }
-};
-
-console.log(dummyDataGenerator());
+})();
