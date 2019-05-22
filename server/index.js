@@ -16,7 +16,7 @@ server.post('/calendar', (req, res) => {
 });
 
 server.get('/calendar', (req, res) => {
-    getReservations(req.body._id, (err, reservations) => {
+    getReservations(req.body.id, (err, reservations) => {
       if (err) {
         res.status(404).
         res.end(err);

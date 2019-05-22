@@ -1,5 +1,5 @@
 {
-"name": "component-calendar",
+  "name": "component-calendar",
   "version": "1.0.0",
   "description": "booking calendar component",
   "private": true,
@@ -23,6 +23,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "airbnb-browser-shims": "^3.2.1",
+    "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-loader": "^8.0.6",
     "body-parser": "^1.19.0",
@@ -31,6 +32,7 @@
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "jest": "^24.8.0",
+    "live-server": "^1.2.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "mongo": "^0.1.0",

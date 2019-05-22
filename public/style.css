@@ -1,0 +1,137 @@
+/* CALENDAR COMPONENT: */
+
+.calendar {
+    width: 614px;
+    background-color: #fff;
+    font-family: Quicksand;
+    letter-spacing: .5px;
+    color: rgb(103, 103, 103);
+    position: relative;
+}
+
+.availability {
+    height: 20px;
+    font-size: 1.2em;
+}
+
+.minStay_and_clearDateButton {
+    display: flex;
+    justify-content: space-between;
+}
+
+.clear_date {
+    color: rgb(0, 160, 177);
+    text-decoration: underline;
+}
+
+.left_button,
+.left_button:active, 
+.left_button:focus, 
+.left_button:focus:active  {
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    height: 15px;
+    width: 20px;
+    border: .5px solid rgb(220, 220, 220);
+    border-radius: 4px;
+    margin: auto;
+    padding: 1% 1% 1.75% 1%; 
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.left_button:hover {
+    border: 1px solid rgb(163, 163, 163);
+}
+
+.right_button,
+.right_button:active, 
+.right_button:focus, 
+.right_button:focus:active {
+    position: absolute;
+    top: 80px;
+    right: 0px;
+    height: 15px;
+    width: 20px;
+    border: .5px solid rgb(220, 220, 220);
+    border-radius: 3px;
+    margin: auto;
+    padding: 1% 1% 1.5% 1%;
+}
+
+.right_button:hover {
+    border: 1px solid rgb(163, 163, 163);
+}
+
+.right_button__no-hover {
+    border: .5px solid rgb(220, 220, 220);
+}
+
+.arrow_button {
+    color: rgb(220, 220, 220);
+}
+
+.calendar_container {
+    display: flex;
+}
+
+
+
+
+/* MONTH COMPONENT */
+
+.month {
+    padding: 0px 13px;
+    text-align: center;
+    align-content: center;
+}
+
+.month_title {
+    width: 281px;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.weekdays {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.weekday {
+    width: 40.143px;
+    height: 26px;
+    align-items: center;
+    border-radius: 11px; 
+    font-size: .75em;
+}
+
+
+
+
+/* DAY COMPONENT */
+
+.days {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.day {
+    font-size: .8em;
+    font-weight: 600;
+    width: 36.143px; 
+    height: 36.143px;
+    border-radius: 7px; 
+    align-items: center;
+    padding: 0px;
+    align-items: center;
+    background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px); color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); 
+}
+
+.doesnt_exist {
+    width: 40.143px; 
+    height: 40.143px;
+}

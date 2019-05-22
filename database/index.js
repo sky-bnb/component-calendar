@@ -1,6 +1,5 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/calendar', { useNewUrlParser: true });
-// let validator = require('validator');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/calendar');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
@@ -13,6 +12,7 @@ db.once('open', () => console.log("Calendar Module Connection Open"));
 //make schema
 var calendarSchema = new mongoose.Schema({
     id: String,
+    minStay: Number,
     dates_reserved: Array
 });
 
@@ -22,6 +22,7 @@ var Calendar = mongoose.model('Calendar', calendarSchema);
 const addCalendar = (resObj) => {
     let calendar = new Calendar({
         id: resObj.id,
+        minStay: resObj.minStay,
         dates_reserved: resObj.dates_reserved
     });
     calendar.save(err => {
