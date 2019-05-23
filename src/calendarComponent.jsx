@@ -16,7 +16,8 @@ class CalendarModule extends React.Component {
             daysInRightMonth : this.monthConfig(1),
             availableDates : this.availableDates()
         };
-
+        console.log(this.state);
+;
         //bind functions
         this.monthConfig = this.monthConfig.bind(this);
         this.toPrevMonth = this.toPrevMonth.bind(this);
@@ -32,6 +33,7 @@ class CalendarModule extends React.Component {
         let new_leftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(1, "months").format("MMMM YYYY");
         let new_daysInLeftMonth = this.monthConfig(new_monthCount);
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
+        console.log("BEFORE CHANGING STATE: ", this.state);
         this.setState({
             monthCount : new_monthCount,
             leftMonth : new_leftMonth,
@@ -84,7 +86,7 @@ class CalendarModule extends React.Component {
             monthCountToUse = (monthCountToUse) * -1;
             for (let i = 0; i < moment().subtract(monthCountToUse, 'months').daysInMonth(); i++) {
                 //pushes all the dates of the month into the given month, using the first day as the reference point
-                arrayOfDays.push(moment().startOf('month').add({months: monthCountToUse, days: i}).format("YYYY-MM-DD"));
+                arrayOfDays.push(moment().startOf('month').subtract({months: monthCountToUse}).add({days: i}).format("YYYY-MM-DD"));
             }
             firstDay = moment().subtract(monthCountToUse, 'months').startOf('month').format('dd');
         }
@@ -102,6 +104,7 @@ class CalendarModule extends React.Component {
     }
 
     render() {
+        console.log("After CHANGING STATE: ", this.state);
         return (
             <div className="calendar">
 
