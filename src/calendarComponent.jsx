@@ -1,5 +1,4 @@
 import React from 'react';
-// import {MonthComponent, handlePrevButtonFromCalendarComponent} from './monthComponent.jsx';
 import MonthComponent from './monthComponent.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -14,15 +13,16 @@ class CalendarModule extends React.Component {
             rightMonth : moment().add(1, "months").format("MMMM YYYY"),
             daysInLeftMonth : this.monthConfig(0),
             daysInRightMonth : this.monthConfig(1),
-            availableDates : this.availableDates()
+            availableDates : this.availableDates(),
+            resMakingMode: false
         };
-        console.log(this.state);
-;
+
         //bind functions
         this.monthConfig = this.monthConfig.bind(this);
         this.toPrevMonth = this.toPrevMonth.bind(this);
         this.toNextMonth = this.toNextMonth.bind(this);
         this.availableDates = this.availableDates.bind(this);
+        this.resMaker = this.resMaker.bind(this);
     }
 
     //button functionality for arrows
@@ -33,7 +33,6 @@ class CalendarModule extends React.Component {
         let new_leftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(1, "months").format("MMMM YYYY");
         let new_daysInLeftMonth = this.monthConfig(new_monthCount);
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
-        console.log("BEFORE CHANGING STATE: ", this.state);
         this.setState({
             monthCount : new_monthCount,
             leftMonth : new_leftMonth,
@@ -67,6 +66,13 @@ class CalendarModule extends React.Component {
             arrayOfDays.push(moment(firstOfTheMonth).add({days: i}).format("YYYY-MM-DD"));
         }
         return arrayOfDays.filter(day => !this.props.user.dates_reserved.includes(day));
+    }
+
+    resMaker(arrayOfConsecutiveDatesAvailable) {
+        this.setState({
+            availableDates: arrayOfConsecutiveDatesAvailable,
+            resMakingMode: true
+        });
     }
 
     // generates array of days for each month
@@ -104,7 +110,6 @@ class CalendarModule extends React.Component {
     }
 
     render() {
-        console.log("After CHANGING STATE: ", this.state);
         return (
             <div className="calendar">
 
@@ -131,10 +136,10 @@ class CalendarModule extends React.Component {
                 <div className="calendar_container">
                     
                     {/* LEFT CALENDAR MONTH */}
-                    <MonthComponent className="month" availability={this.state.availableDates} monthToRender={this.state.leftMonth} daysInThisMonth={this.state.daysInLeftMonth} />
+                    <MonthComponent className="month" availability={this.state.availableDates} minStay={this.props.user.minStay} resMakingMode={this.state.resMakingMode} monthToRender={this.state.leftMonth} daysInThisMonth={this.state.daysInLeftMonth} resMaker={this.resMaker} />
 
                     {/* LEFT CALENDAR MONTH */}
-                    <MonthComponent className="month" availability={this.state.availableDates} monthToRender={this.state.rightMonth} daysInThisMonth={this.state.daysInRightMonth} />
+                    <MonthComponent className="month" availability={this.state.availableDates} minStay={this.props.user.minStay} resMakingMode={this.state.resMakingMode} monthToRender={this.state.rightMonth} daysInThisMonth={this.state.daysInRightMonth} resMaker={this.resMaker} />
                 </div>
 
             </div>
