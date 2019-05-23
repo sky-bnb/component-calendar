@@ -15,15 +15,18 @@ class MonthComponent extends React.Component {
         //check if this is an open res
         console.log(childState);
         let availableNights = this.props.availability;
-        if (availableNights.includes(childState.day)) {
-            let currentDate = childState.day;
+        if (availableNights.includes(childState)) {
+            let currentDate = childState;
             const datesToRender = [];
             let maxDate = moment().add(90, 'd').format("YYYY-MM-DD");
-            while(!availableNights.includes(currentDate) && moment(currentDate, "YYYY-MM-DD").isBefore(maxDate, "YYYY-MM-DD")) {
+            while(availableNights.includes(currentDate) && moment(currentDate, "YYYY-MM-DD").isBefore(maxDate, "YYYY-MM-DD")) {
+                console.log(availableNights, currentDate);
+                
                 datesToRender.push(currentDate);
                 currentDate = moment(currentDate, "YYYY-MM-DD").add(1, 'd').format("YYYY-MM-DD");
             }
             console.log(datesToRender);
+            this.props.resMaker(datesToRender);
         }
     }
 
@@ -54,10 +57,13 @@ class MonthComponent extends React.Component {
                         return <DayComponent 
                             key={i} 
                             date={thisDay}
+                            resMakingMode={this.props.resMakingMode}
                             exists={thisDay !== null ? true : false } 
                             dayNumber={thisDay === null ? '' : moment(thisDay, "YYYY-MM-DD").format('D')} 
                             dayAvailableToBook={this.props.availability.includes(thisDay) ? true : false}
                             dayClicked={this.resMaker}
+                            minStay={this.props.minStay}
+                            availableNights={this.props.availability}
                         />
                     })}
                 </div>

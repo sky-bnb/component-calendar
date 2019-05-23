@@ -13,7 +13,6 @@ class DayComponent extends React.Component {
     }
 
     onFirstClickHandler(e) {
-        console.log(e);
         this.props.dayClicked(this.props.date);
     }
 
@@ -22,6 +21,10 @@ class DayComponent extends React.Component {
             return "date_taken";
         } else if (moment(this.props.date).isAfter(moment().add(90, 'd')) && this.props.exists) {
             return "date_taken";
+        } else if (this.props.exists && this.props.dayAvailableToBook && this.props.resMakingMode && this.props.availableNights[0] === this.props.date) {
+            return "starting_date";        
+        } else if (this.props.exists && this.props.dayAvailableToBook && this.props.resMakingMode && !this.props.availableNights.slice(this.props.minStay).includes(this.props.date)) {
+            return "date_taken";    
         } else if (this.props.exists && this.props.dayAvailableToBook) {
             return "date_available";
         } else if (this.props.exists && !this.props.dayAvailableToBook) {
