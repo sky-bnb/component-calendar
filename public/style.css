@@ -119,12 +119,12 @@
     align-items: center;
 }
 
-.day {
-    font-size: .8em;
+.date_taken {
+    font-size: .9em;
     font-weight: 600;
     width: 36.143px; 
     height: 36.143px;
-    border-radius: 7px; 
+    border-radius: 4px; 
     align-items: center;
     padding: 0px;
     align-items: center;
@@ -134,4 +134,21 @@
 .doesnt_exist {
     width: 40.143px; 
     height: 40.143px;
+}
+
+.date_available {
+    font-size: .9em;
+    font-weight: 600;
+    width: 38.143px; 
+    height: 38.143px;
+    border-radius: 4px; 
+    align-items: center;
+    padding: 0px;
+    margin: 1px;
+    align-items: center;
+    background: rgba(215, 255, 255, 0.726);
+}
+
+.date_available:hover {
+    background: rgba(50, 145, 145, 0.61);
 }
