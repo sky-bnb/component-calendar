@@ -1,31 +1,30 @@
 import React from 'react';
 import DayComponent from './dayComponent.jsx';
 import moment from 'moment';
-
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class MonthComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hovered: false,
-            availability: this.props.dates,
-            monthToRender: this.props.monthToRender,
-            daysInThisMonth : this.props.daysInThisMonth
         };
-
-        this.onMouseOverFn = this.onMouseOverFn.bind(this);
-        this.handlePrevButtonFromCalendarComponent = this.handlePrevButtonFromCalendarComponent.bind(this);
+        this.resMaker = this.resMaker.bind(this);
     }
 
-    onMouseOverFn(e) {
-        e.preventDefault();
-        this.setState({
-            hovered: !this.state.hovered
-        });
-    }
-
-    handlePrevButtonFromCalendarComponent(newState) {
-
+    resMaker(childState) {
+        //check if this is an open res
+        console.log(childState);
+        let availableNights = this.props.availability;
+        if (availableNights.includes(childState.day)) {
+            let currentDate = childState.day;
+            const datesToRender = [];
+            let maxDate = moment().add(90, 'd').format("YYYY-MM-DD");
+            while(!availableNights.includes(currentDate) && moment(currentDate, "YYYY-MM-DD").isBefore(maxDate, "YYYY-MM-DD")) {
+                datesToRender.push(currentDate);
+                currentDate = moment(currentDate, "YYYY-MM-DD").add(1, 'd').format("YYYY-MM-DD");
+            }
+            console.log(datesToRender);
+        }
     }
 
     render() {
@@ -51,8 +50,15 @@ class MonthComponent extends React.Component {
 
                 {/* FOR EACH WEEK, MAX OF 6, MIN of 4 */}
                 <div className="days">
-                    {this.props.daysInThisMonth.map((typeOfDay, i) => {
-                        return <DayComponent key={i} exists={(typeOfDay !== null) ? "day" : "doesnt_exist"} typeOfDay={typeOfDay} availability={this.props.availability}/>
+                    {this.props.daysInThisMonth.map((thisDay, i) => {
+                        return <DayComponent 
+                            key={i} 
+                            date={thisDay}
+                            exists={thisDay !== null ? true : false } 
+                            dayNumber={thisDay === null ? '' : moment(thisDay, "YYYY-MM-DD").format('D')} 
+                            dayAvailableToBook={this.props.availability.includes(thisDay) ? true : false}
+                            dayClicked={this.resMaker}
+                        />
                     })}
                 </div>
             </div>

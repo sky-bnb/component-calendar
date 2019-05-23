@@ -1,6 +1,7 @@
 import React from 'react';
 // import {MonthComponent, handlePrevButtonFromCalendarComponent} from './monthComponent.jsx';
 import MonthComponent from './monthComponent.jsx';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import moment from 'moment';
 
@@ -8,56 +9,87 @@ class CalendarModule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            queryClicked : false,
+            monthCount : 0,
             leftMonth : moment().format("MMMM YYYY"),
             rightMonth : moment().add(1, "months").format("MMMM YYYY"),
-            daysInLeftMonth : this.monthConfig(this.leftMonth),
-            daysInRightMonth : this.monthConfig(this.rightMonth)
+            daysInLeftMonth : this.monthConfig(0),
+            daysInRightMonth : this.monthConfig(1),
+            availableDates : this.availableDates()
         };
 
         //bind functions
+        this.monthConfig = this.monthConfig.bind(this);
         this.toPrevMonth = this.toPrevMonth.bind(this);
         this.toNextMonth = this.toNextMonth.bind(this);
+        this.availableDates = this.availableDates.bind(this);
     }
 
     //button functionality for arrows
-
-
     toPrevMonth(e) {
+        let new_monthCount = this.state.monthCount-1;
         let new_rightMonth = this.state.leftMonth;
         let new_daysInRightMonth = this.state.daysInLeftMonth; 
-        let new_leftMonth = moment(this.state.leftMonth).subtract(1, "months").format("MMMM YYYY");
-        let new_daysInLeftMonth = this.monthConfig(new_leftMonth);
+        let new_leftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(1, "months").format("MMMM YYYY");
+        let new_daysInLeftMonth = this.monthConfig(new_monthCount);
+        let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
         this.setState({
+            monthCount : new_monthCount,
             leftMonth : new_leftMonth,
             rightMonth : new_rightMonth,
             daysInLeftMonth : new_daysInLeftMonth,
-            daysInRightMonth : new_daysInRightMonth
+            daysInRightMonth : new_daysInRightMonth,
+            availableDates : new_availableDates
         });
     }
-
     toNextMonth(e) {
+        let new_monthCount = this.state.monthCount+1;
         let new_leftMonth = this.state.rightMonth;
         let new_daysInLeftMonth = this.state.daysInRightMonth; 
-        let new_rightMonth = moment(this.state.rightMonth).add(1, "months").format("MMMM YYYY");
-        let new_daysInRightMonth = this.monthConfig(new_rightMonth);
+        let new_rightMonth = moment(this.state.rightMonth, "MMMM YYYY").add(1, "months").format("MMMM YYYY");
+        let new_daysInRightMonth = this.monthConfig(new_monthCount+1);
+        let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
         this.setState({
+            monthCount : new_monthCount,
             leftMonth : new_leftMonth,
             rightMonth : new_rightMonth,
             daysInLeftMonth : new_daysInLeftMonth,
-            daysInRightMonth : new_daysInRightMonth
+            daysInRightMonth : new_daysInRightMonth,
+            availableDates : new_availableDates
         });
     }
 
-    //generates array of days for each month
-    monthConfig(month) {
-        // const month =  left ? moment() : moment().add(1, "months");
-        const num = moment(month).daysInMonth();
+    availableDates() {
         let arrayOfDays = [];
-        for (let i = 1; i < num; i++) {
-            arrayOfDays.push(i);
+        for (let i = 0; i < 90; i++) {
+            let firstOfTheMonth = moment().startOf('month');
+            arrayOfDays.push(moment(firstOfTheMonth).add({days: i}).format("YYYY-MM-DD"));
         }
-        const firstDay = moment(month).startOf('month').format('dd');
+        return arrayOfDays.filter(day => !this.props.user.dates_reserved.includes(day));
+    }
+
+    // generates array of days for each month
+    monthConfig(monthCountToUse) {
+        let arrayOfDays = [];
+        let firstDay; 
+        if (monthCountToUse >= 0) {
+            //for current months and any following months
+            for (let i = 0; i < moment().add(monthCountToUse, 'months').daysInMonth(); i++) {
+                //pushes all the dates of the month into the given month, using the first day as the reference point
+                let firstOfTheMonth = moment().startOf('month');
+                arrayOfDays.push(moment(firstOfTheMonth).add({months: monthCountToUse, days: i}).format("YYYY-MM-DD"));
+            }
+            firstDay = moment().add(monthCountToUse, 'months').startOf('month').format('dd');
+        } else {
+            //for when monthCount is negative (looking for months before current one)
+            monthCountToUse = (monthCountToUse) * -1;
+            for (let i = 0; i < moment().subtract(monthCountToUse, 'months').daysInMonth(); i++) {
+                //pushes all the dates of the month into the given month, using the first day as the reference point
+                arrayOfDays.push(moment().startOf('month').add({months: monthCountToUse, days: i}).format("YYYY-MM-DD"));
+            }
+            firstDay = moment().subtract(monthCountToUse, 'months').startOf('month').format('dd');
+        }
+
+        //check when the fhe first of the month is at, then return the array when you got all the placeholders
         let weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         for (let i = 0; i < 7; i++) {
             if (weekdays[i] !== firstDay) {
@@ -70,9 +102,10 @@ class CalendarModule extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <div className="calendar">
+
+                {/* availability header and minimum stay / clear button sections */}
                 <div className="availability"><h3><b>Availability</b></h3></div>
                 <div className="minStay_and_clearDateButton">
                     <div><p>{this.props.user.minStay} night minimum stay</p></div>
@@ -95,10 +128,10 @@ class CalendarModule extends React.Component {
                 <div className="calendar_container">
                     
                     {/* LEFT CALENDAR MONTH */}
-                    <MonthComponent className="month" availability={this.props.user.dates_reserved} monthToRender={this.state.leftMonth} daysInThisMonth={this.state.daysInLeftMonth} />
+                    <MonthComponent className="month" availability={this.state.availableDates} monthToRender={this.state.leftMonth} daysInThisMonth={this.state.daysInLeftMonth} />
 
                     {/* LEFT CALENDAR MONTH */}
-                    <MonthComponent className="month" availability={this.props.user.dates_reserved} monthToRender={this.state.rightMonth} daysInThisMonth={this.state.daysInRightMonth} />
+                    <MonthComponent className="month" availability={this.state.availableDates} monthToRender={this.state.rightMonth} daysInThisMonth={this.state.daysInRightMonth} />
                 </div>
 
             </div>
