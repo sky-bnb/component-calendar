@@ -14,7 +14,10 @@ class CalendarModule extends React.Component {
             daysInLeftMonth : this.monthConfig(0),
             daysInRightMonth : this.monthConfig(1),
             availableDates : this.availableDates(),
-            resMakingMode: false
+            resMakingMode : false,
+            inBetweenDates : [],
+            selectedDates : [],
+            hideClearBtn : true
         };
 
         //bind functions
@@ -23,6 +26,10 @@ class CalendarModule extends React.Component {
         this.toNextMonth = this.toNextMonth.bind(this);
         this.availableDates = this.availableDates.bind(this);
         this.resMaker = this.resMaker.bind(this);
+        this.mouseOverDuringResMode = this.mouseOverDuringResMode.bind(this);
+        this.endDateClicked = this.endDateClicked.bind(this);
+        this.clearDataClickHandler = this.clearDataClickHandler.bind(this);
+
     }
 
     //button functionality for arrows
@@ -71,7 +78,8 @@ class CalendarModule extends React.Component {
     resMaker(arrayOfConsecutiveDatesAvailable) {
         this.setState({
             availableDates: arrayOfConsecutiveDatesAvailable,
-            resMakingMode: true
+            resMakingMode: true,
+            selectedDates : []
         });
     }
 
@@ -109,37 +117,101 @@ class CalendarModule extends React.Component {
         }
     }
 
+    mouseOverDuringResMode(date) {
+        this.setState({
+            inBetweenDates : this.state.availableDates.slice(0, this.state.availableDates.indexOf(date)+1)
+        });
+    }
+
+    endDateClicked(date) {
+        let resetDates = this.availableDates();
+        const new_daysInRightMonth = this.monthConfig(this.state.monthCount+1); 
+        const new_daysInLeftMonth = this.monthConfig(this.state.monthCount);
+        this.setState({
+            selectedDates : this.state.inBetweenDates,
+            availableDates : resetDates,
+            inBetweenDates : [],
+            daysInLeftMonth : new_daysInLeftMonth,
+            daysInRightMonth : new_daysInRightMonth,
+            resMakingMode : false,
+            hideClearBtn : false
+        });
+    }
+
+    clearDataClickHandler(e) {
+        console.log("clear clicked");
+        let new_daysInRightMonth = this.monthConfig(this.state.monthCount+1); 
+        let new_daysInLeftMonth = this.monthConfig(this.state.monthCount);
+        let new_availableDates = this.availableDates();
+        this.setState({
+            daysInLeftMonth : new_daysInLeftMonth,
+            daysInRightMonth : new_daysInRightMonth,
+            availableDates : new_availableDates,
+            selectedDates : [],
+            resMakingMode : false,
+            hideClearBtn : true
+        });
+    }
+
     render() {
+        console.log(this.state);
         return (
             <div className="calendar">
 
                 {/* availability header and minimum stay / clear button sections */}
                 <div className="availability"><h3><b>Availability</b></h3></div>
-                <div className="minStay_and_clearDateButton">
-                    <div><p>{this.props.user.minStay} night minimum stay</p></div>
-                    <div className="clear_date"><p>Clear Date</p></div>
-                </div>
+
+                {(this.state.resMakingMode || (!this.state.resMakingMode && !this.state.hideClearBtn)) ?  
+                    <div className="minStay_and_clearDateButton">
+                        <div><p>{this.props.user.minStay} night minimum stay</p></div>
+                        <div className="clear_date" onClick={this.clearDataClickHandler}><p>Clear Date</p></div>
+                        
+                    </div>
+                    : null
+                }
 
                 {/* left and right buttons, with absolute position, z-index of 2 */}
-                <div className="left_button" tabIndex="0" onClick={this.toPrevMonth}>
-                    <svg focusable="false" viewBox="0 0 1000 1000" className="arrow_button">
-                        <path d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z"></path>
-                    </svg>
-                </div>
-                <div className="right_button" tabIndex="0" onClick={this.toNextMonth}>
-                    <svg focusable="false" viewBox="0 0 1000 1000">
-                        <path d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z"></path>
-                    </svg>
+                <div className="buttons">
+                    <div className="left_button" tabIndex="0" onClick={this.toPrevMonth}>
+                        <svg focusable="false" viewBox="0 0 1000 1000" className="arrow_button">
+                            <path className="arrows" d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z"></path>
+                        </svg>
+                    </div>
+                    <div className="right_button" tabIndex="0" onClick={this.toNextMonth}>
+                        <svg focusable="false" viewBox="0 0 1000 1000">
+                            <path className="arrows" d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z"></path>
+                        </svg>
+                    </div>
                 </div>
 
                 {/* container for the actual calendars: left and right */}
                 <div className="calendar_container">
                     
                     {/* LEFT CALENDAR MONTH */}
-                    <MonthComponent className="month" availability={this.state.availableDates} minStay={this.props.user.minStay} resMakingMode={this.state.resMakingMode} monthToRender={this.state.leftMonth} daysInThisMonth={this.state.daysInLeftMonth} resMaker={this.resMaker} />
+                    <MonthComponent className="month" 
+                        availability={this.state.availableDates} 
+                        minStay={this.props.user.minStay} 
+                        resMakingMode={this.state.resMakingMode} 
+                        monthToRender={this.state.leftMonth} 
+                        daysInThisMonth={this.state.daysInLeftMonth}
+                        mouseOverDuringResMode={this.mouseOverDuringResMode} 
+                        resMaker={this.resMaker}
+                        inBetweenDates={this.state.inBetweenDates}
+                        endDateClicked={this.endDateClicked}
+                        selectedDates = {this.state.selectedDates} />
 
                     {/* LEFT CALENDAR MONTH */}
-                    <MonthComponent className="month" availability={this.state.availableDates} minStay={this.props.user.minStay} resMakingMode={this.state.resMakingMode} monthToRender={this.state.rightMonth} daysInThisMonth={this.state.daysInRightMonth} resMaker={this.resMaker} />
+                    <MonthComponent className="month" 
+                        availability={this.state.availableDates} 
+                        minStay={this.props.user.minStay} 
+                        resMakingMode={this.state.resMakingMode} 
+                        monthToRender={this.state.rightMonth} 
+                        daysInThisMonth={this.state.daysInRightMonth} 
+                        mouseOverDuringResMode={this.mouseOverDuringResMode} 
+                        resMaker={this.resMaker}
+                        inBetweenDates={this.state.inBetweenDates}
+                        endDateClicked={this.endDateClicked}
+                        selectedDates = {this.state.selectedDates} />
                 </div>
 
             </div>

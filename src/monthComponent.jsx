@@ -9,25 +9,31 @@ class MonthComponent extends React.Component {
         this.state = {
         };
         this.resMaker = this.resMaker.bind(this);
+        this.mouseOverDuringResMode = this.mouseOverDuringResMode.bind(this);
+        this.endDateClicked = this.endDateClicked.bind(this);
     }
 
     resMaker(childState) {
         //check if this is an open res
-        console.log(childState);
         let availableNights = this.props.availability;
         if (availableNights.includes(childState)) {
             let currentDate = childState;
             const datesToRender = [];
             let maxDate = moment().add(90, 'd').format("YYYY-MM-DD");
             while(availableNights.includes(currentDate) && moment(currentDate, "YYYY-MM-DD").isBefore(maxDate, "YYYY-MM-DD")) {
-                console.log(availableNights, currentDate);
-                
                 datesToRender.push(currentDate);
                 currentDate = moment(currentDate, "YYYY-MM-DD").add(1, 'd').format("YYYY-MM-DD");
             }
-            console.log(datesToRender);
             this.props.resMaker(datesToRender);
         }
+    }
+
+    mouseOverDuringResMode(date) {
+        this.props.mouseOverDuringResMode(date);
+    }
+
+    endDateClicked(date) {
+        this.props.endDateClicked(date);
     }
 
     render() {
@@ -64,6 +70,10 @@ class MonthComponent extends React.Component {
                             dayClicked={this.resMaker}
                             minStay={this.props.minStay}
                             availableNights={this.props.availability}
+                            mouseOverDuringResMode={this.mouseOverDuringResMode}
+                            inBetweenDates={this.props.inBetweenDates}
+                            endDateClicked={this.endDateClicked}
+                            selectedDates = {this.props.selectedDates}
                         />
                     })}
                 </div>
