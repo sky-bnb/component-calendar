@@ -25,6 +25,7 @@ class DayComponent extends React.Component {
         this.props.mouseOverDuringResMode(this.props.date);
     }
 
+    //fn that chooses what kind of day to render, via css styling name
     dayStateHandler() {
 
         //When date is before current date, unavailable
@@ -65,10 +66,13 @@ class DayComponent extends React.Component {
 
     render() {
         return (
-            <div className={this.dayStateHandler()} onClick={this.clickHandler} onMouseOver={this.mouseOverDuringResMode}>
-            <div className="dayNumber">
-                {this.props.dayNumber}
-            </div>
+            <div className="day_container">
+                {this.dayStateHandler() === "starting_date" && this.props.date === this.props.availableNights[0] ? <div className="minNightPopup"><span>{this.props.minStay} night minimum stay</span></div> : undefined}
+                <div className={this.dayStateHandler()} onClick={this.clickHandler} onMouseOver={this.mouseOverDuringResMode}>
+                <div className="dayNumber">
+                    {this.props.dayNumber}
+                </div>
+                </div>
             </div>
         )
     }

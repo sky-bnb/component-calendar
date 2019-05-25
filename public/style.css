@@ -129,6 +129,10 @@
 
 /* DAY COMPONENT */
 
+.day_container {
+    position: relative;
+}
+
 .days {
     display: flex;
     flex-wrap: wrap;
@@ -195,8 +199,16 @@
 }
 
 .minNightPopup {
-    height: 100px;
-    width: 2000px;
+    position: absolute;
+    top : -24px;
+    font-size: .7em;
     background-color: white;
-    color: black;
+    height: 10px;
+    opacity: 1;
+    border-radius: 4px;
+    width: 118px;
+    padding: 0px 0px 10px 0px;
+    box-shadow: 1px 1px;
+    z-index: 2;
+
 }
