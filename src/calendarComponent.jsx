@@ -8,16 +8,16 @@ class CalendarModule extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            resMakingMode : false,
+            hideClearBtn : true,
             monthCount : 0,
+            inBetweenDates : [],
+            selectedDates : [],
             leftMonth : moment().format("MMMM YYYY"),
             rightMonth : moment().add(1, "months").format("MMMM YYYY"),
             daysInLeftMonth : this.monthConfig(0),
             daysInRightMonth : this.monthConfig(1),
-            availableDates : this.availableDates(),
-            resMakingMode : false,
-            inBetweenDates : [],
-            selectedDates : [],
-            hideClearBtn : true
+            availableDates : this.availableDates()
         };
 
         //bind functions
@@ -29,7 +29,6 @@ class CalendarModule extends React.Component {
         this.mouseOverDuringResMode = this.mouseOverDuringResMode.bind(this);
         this.endDateClicked = this.endDateClicked.bind(this);
         this.clearDataClickHandler = this.clearDataClickHandler.bind(this);
-
     }
 
     //button functionality for arrows
@@ -40,6 +39,8 @@ class CalendarModule extends React.Component {
         let new_leftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(1, "months").format("MMMM YYYY");
         let new_daysInLeftMonth = this.monthConfig(new_monthCount);
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
+        
+        //change months when left button is clicked
         this.setState({
             monthCount : new_monthCount,
             leftMonth : new_leftMonth,
@@ -56,6 +57,8 @@ class CalendarModule extends React.Component {
         let new_rightMonth = moment(this.state.rightMonth, "MMMM YYYY").add(1, "months").format("MMMM YYYY");
         let new_daysInRightMonth = this.monthConfig(new_monthCount+1);
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
+        
+        //change months when right button is clicked
         this.setState({
             monthCount : new_monthCount,
             leftMonth : new_leftMonth,
@@ -66,6 +69,7 @@ class CalendarModule extends React.Component {
         });
     }
 
+    //returns initial available dates
     availableDates() {
         let arrayOfDays = [];
         for (let i = 0; i < 90; i++) {
@@ -75,6 +79,7 @@ class CalendarModule extends React.Component {
         return arrayOfDays.filter(day => !this.props.user.dates_reserved.includes(day));
     }
 
+    //displays which days are available consecutively after chosen start date
     resMaker(arrayOfConsecutiveDatesAvailable) {
         this.setState({
             availableDates: arrayOfConsecutiveDatesAvailable,
@@ -117,6 +122,7 @@ class CalendarModule extends React.Component {
         }
     }
 
+    //allows for hovering of available consecutive dates
     mouseOverDuringResMode(date) {
         this.setState({
             inBetweenDates : this.state.availableDates.slice(0, this.state.availableDates.indexOf(date)+1)
@@ -138,6 +144,7 @@ class CalendarModule extends React.Component {
         });
     }
 
+    //clears all dates
     clearDataClickHandler(e) {
         console.log("clear clicked");
         let new_daysInRightMonth = this.monthConfig(this.state.monthCount+1); 

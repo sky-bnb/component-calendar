@@ -6,8 +6,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 class MonthComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+
+        //bind functions
         this.resMaker = this.resMaker.bind(this);
         this.mouseOverDuringResMode = this.mouseOverDuringResMode.bind(this);
         this.endDateClicked = this.endDateClicked.bind(this);
@@ -57,8 +57,9 @@ class MonthComponent extends React.Component {
                     <div className="weekday"> Sa </div>
                 </div>
 
-                {/* FOR EACH WEEK, MAX OF 6, MIN of 4 */}
+                {/* FOR ALL DAYS OF THIS MONTH*/}
                 <div className="days">
+                    {/* TODO: ADD MIN NIGHT POPUP */}
                     {this.props.daysInThisMonth.map((thisDay, i) => {
                         return <DayComponent 
                             key={i} 
