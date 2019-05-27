@@ -1,7 +1,7 @@
 import React from 'react';
 import DayComponent from './dayComponent.jsx';
 import moment from 'moment';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Fade from 'react-reveal/Fade';
 
 class MonthComponent extends React.Component {
     constructor(props) {
