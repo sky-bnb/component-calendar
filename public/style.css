@@ -59,9 +59,9 @@
     padding: 1% 1.5% 2% 1.5%; 
     box-shadow: none;
     -webkit-box-shadow: none;
-    outline: thin solid;
+    outline: thin solid rgb(235, 235, 235);
     outline-width: 0px;
-    outline-offset: -2px;
+    outline-offset: -1px;
 }
 
 .left_button:hover {
@@ -84,9 +84,9 @@
     border-radius: 3px;
     margin: auto;
     padding: 1% 1.5% 2% 1.5%;
-    outline: thin solid;
+    outline: thin solid rgb(235, 235, 235);
     outline-width: 0px;
-    outline-offset: -2px;
+    outline-offset: -1px;
 }
 
 .right_button:hover {
