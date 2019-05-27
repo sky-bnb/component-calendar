@@ -33,8 +33,8 @@ class DayComponent extends React.Component {
             return "date_taken";
 
         //when date is past the allowed 90 days, unavailable
-        } else if (moment(this.props.date).isAfter(moment().add(90, 'd')) && this.props.exists) {
-            return "date_taken";
+        // } else if (moment(this.props.date).isAfter(moment().add(90, 'd')) && this.props.exists) {
+        //     return "date_taken";
 
         //when reservation dates are finally selected
         } else if (this.props.exists && this.props.selectedDates.includes(this.props.date)) {
