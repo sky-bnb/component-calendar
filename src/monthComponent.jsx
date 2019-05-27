@@ -19,7 +19,7 @@ class MonthComponent extends React.Component {
         if (availableNights.includes(childState)) {
             let currentDate = childState;
             const datesToRender = [];
-            let maxDate = moment().add(90, 'd').format("YYYY-MM-DD");
+            let maxDate = moment().add(900, 'd').format("YYYY-MM-DD");
             while(availableNights.includes(currentDate) && moment(currentDate, "YYYY-MM-DD").isBefore(maxDate, "YYYY-MM-DD")) {
                 datesToRender.push(currentDate);
                 currentDate = moment(currentDate, "YYYY-MM-DD").add(1, 'd').format("YYYY-MM-DD");

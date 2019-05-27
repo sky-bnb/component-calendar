@@ -135,7 +135,7 @@ class CalendarModule extends React.Component {
     //returns initial available dates
     availableDates() {
         let arrayOfDays = [];
-        for (let i = 0; i < 90; i++) {
+        for (let i = 0; i < 900; i++) {
             let firstOfTheMonth = moment().startOf('month');
             arrayOfDays.push(moment(firstOfTheMonth).add({ days: i }).format("YYYY-MM-DD"));
         }
