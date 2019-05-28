@@ -1,75 +1,49 @@
-const Calendar = require('../database/index');
-const faker = require('faker');
 const moment = require('moment');
+const { db } = require('./index');
+const { Calendar } = require('./schema_model.config');
 
-//Running script will run this IIFE to generate all 100 users;
-(() => {
-    var dateGenerator = () => {
-        var arrayOfReservations = [];
-        while (arrayOfReservations.length < 40) {
-            var newDate = moment().add(Math.floor((Math.random() * 90) + 1), 'days').format("YYYY-MM-DD");
-            if (!arrayOfReservations.includes(newDate)) {
-                arrayOfReservations.push(newDate);
-            }
+let reservations = (() => {
+    var arrayOfReservations = [];
+
+    while (arrayOfReservations.length < 175) {
+        var newDate = moment().add(Math.floor((Math.random() * 365) + 1), 'days').format("YYYY-MM-DD");
+
+        if (!arrayOfReservations.includes(newDate)) {
+            arrayOfReservations.push(newDate);
         }
-    
-        return arrayOfReservations.sort();
-    };
-    let reservations = dateGenerator();
-    for (let i = 101; i < 201; i++) {
-        let user = {id: i, minStay: Math.floor(Math.random() * 3) + 1, dates_reserved: reservations};
-        Calendar.addCalendar(user);
     }
+
+    return arrayOfReservations.sort();
 })();
 
-const dummyUser = [
-    {
-        "dates_reserved": [
-            "2019-05-21",
-            "2019-05-22",
-            "2019-05-24",
-            "2019-05-27",
-            "2019-06-01",
-            "2019-06-02",
-            "2019-06-04",
-            "2019-06-06",
-            "2019-06-10",
-            "2019-06-13",
-            "2019-06-15",
-            "2019-06-17",
-            "2019-06-22",
-            "2019-06-23",
-            "2019-06-25",
-            "2019-06-28",
-            "2019-06-29",
-            "2019-06-30",
-            "2019-07-01",
-            "2019-07-04",
-            "2019-07-05",
-            "2019-07-07",
-            "2019-07-15",
-            "2019-07-16",
-            "2019-07-17",
-            "2019-07-19",
-            "2019-07-20",
-            "2019-07-21",
-            "2019-07-24",
-            "2019-07-25",
-            "2019-07-26",
-            "2019-07-27",
-            "2019-07-30",
-            "2019-08-04",
-            "2019-08-05",
-            "2019-08-06",
-            "2019-08-09",
-            "2019-08-10",
-            "2019-08-13",
-            "2019-08-14"
-        ],
-        "_id": "5ce3459618cc490491b066e6",
-        "id": "108",
-        "minStay": 2,
-        "__v": 0
+//make an array of promises for 100 users 
+let arrOfPromises = (() => {
+    let arr = [];
+    for (let i = 101; i < 201; i++) {
+        let user = {
+            id: i, 
+            minStay: Math.floor(Math.random() * 3) + 1,
+            dates_reserved: reservations
+        };
+        arr.push(new Promise((resolve, reject) => {
+            let calendar = new Calendar({
+                id: user.id,
+                minStay: user.minStay,
+                dates_reserved: user.dates_reserved
+            });
+            calendar.save(err => {
+                if (err) {
+                    reject(console.log("There was an error inserting into the mongoDB :", err));
+                } else {
+                    resolve(console.log(`User #${user.id} was added into the database.`));
+                }
+            });
+        }));
     }
-];
-export default dummyUser;
+    return arr;
+})();
+
+//close connection once all users have been added
+Promise.all(arrOfPromises).then(() => {
+    db.close('close', () => console.log("Data Seeded. Connection Closed."));
+});
