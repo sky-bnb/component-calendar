@@ -1,39 +1,13 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/calendar');
+const Calendar = require('./schema_model.config');
 
-var db = mongoose.connection;
+const db = mongoose.connection;
+mongoose.connect('mongodb://localhost/calendar', { useNewUrlParser: true });
+
 db.on('error', console.error.bind(console, 'connection error: '));
-db.once('open', () => console.log("Calendar Module Connection Open"));
-
-
-
-//SCHEMA/MODEL: 
-
-//make schema
-var calendarSchema = new mongoose.Schema({
-    id: String,
-    minStay: Number,
-    dates_reserved: Array
-});
-
-//make model
-var Calendar = mongoose.model('Calendar', calendarSchema);  
-
-const addCalendar = (resObj) => {
-    let calendar = new Calendar({
-        id: resObj.id,
-        minStay: resObj.minStay,
-        dates_reserved: resObj.dates_reserved
-    });
-    calendar.save(err => {
-        if (err) {
-            console.log("There was an error inserting into the mongoDB :", err);
-        } else {
-            console.log(`Success: User #${resObj.id} was added into the database`);
-        }
-    });
-};
+db.once('open', () => console.log("Calendar Mongoose DB Connected to Server"));
 
 const getReservations = (id, cb) => Calendar.find({ id }, cb);
 const getCount = () => Calendar.estimatedDocumentCount();
-module.exports = {addCalendar, getReservations, getCount, db};
+
+module.exports = {getReservations, getCount, db};

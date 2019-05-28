@@ -1,7 +1,6 @@
 import React from 'react';
 import MonthComponent from './monthComponent.jsx';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import TweenOne from 'rc-tween-one';
 
 class CalendarModule extends React.Component {
@@ -12,6 +11,9 @@ class CalendarModule extends React.Component {
         this.animation = undefined;
 
         this.state = {
+            moment: null,
+            paused: true,
+            reverse: false,
             resMakingMode: false,
             hideClearBtn: true,
             monthCount: 0,
@@ -25,12 +27,7 @@ class CalendarModule extends React.Component {
             daysInLeftMonth: this.monthConfig(0),
             daysInRightMonth: this.monthConfig(1),
             daysInWaitingRightMonth: this.monthConfig(2),
-            availableDates: this.availableDates(),
-            rightWasPressed: true,
-            leftWasPressed: true,
-            paused: true,
-            moment: null,
-            reverse: false
+            availableDates: this.availableDates()
         };
 
         //bind functions
@@ -47,7 +44,7 @@ class CalendarModule extends React.Component {
     //button functionality for arrows
     toPrevMonth(e) {
 
-        //to reset pause state so it will do slide
+        //to reset pause state so it will do slide slide each button click
         if (this.state.paused === false) {
             this.setState({
                 paused: true
@@ -55,6 +52,7 @@ class CalendarModule extends React.Component {
         }
         
         this.animation = [{ marginLeft: -307, duration: 0 }, {marginLeft: 0, duration: 200}];
+        let new_paused = false;
         let new_monthCount = this.state.monthCount - 1;
         let new_waitingLeftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(2, "months").format("MMMM YYYY");
         let new_leftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(1, "months").format("MMMM YYYY");
@@ -65,7 +63,6 @@ class CalendarModule extends React.Component {
         let new_daysInRightMonth = this.state.daysInLeftMonth;
         let new_daysInWaitingRightMonth = this.state.daysInRightMonth;
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
-        let new_paused = false;
         this.setState({
             paused : new_paused,
             moment: 0,
@@ -96,6 +93,8 @@ class CalendarModule extends React.Component {
                 paused: true
             });
         }
+        
+        let new_paused = false;
         this.animation = [{ marginLeft: 307, duration: 0 }, {marginLeft: 0, duration: 200}];
         let new_monthCount = this.state.monthCount + 1;
         let new_waitingLeftMonth = this.state.leftMonth;
@@ -107,7 +106,6 @@ class CalendarModule extends React.Component {
         let new_daysInRightMonth = this.monthConfig(new_monthCount + 1);
         let new_daysInWaitingRightMonth = this.monthConfig(new_monthCount + 2);
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
-        let new_paused = false;
 
         //change months when right button is clicked
         this.setState({
@@ -123,7 +121,6 @@ class CalendarModule extends React.Component {
             daysInRightMonth: new_daysInRightMonth,
             daysInWaitingRightMonth: new_daysInWaitingRightMonth,
             availableDates: new_availableDates,
-            rightWasPressed: !this.state.rightWasPressed,
         },
         () => {
             this.setState({
@@ -192,6 +189,7 @@ class CalendarModule extends React.Component {
         });
     }
 
+    //turn off reservation mode and back to picking starting date, with selected date still shown
     endDateClicked(date) {
         let resetDates = this.availableDates();
         const new_daysInRightMonth = this.monthConfig(this.state.monthCount + 1);
@@ -209,7 +207,6 @@ class CalendarModule extends React.Component {
 
     //clears all dates
     clearDataClickHandler(e) {
-        console.log("clear clicked");
         let new_daysInRightMonth = this.monthConfig(this.state.monthCount + 1);
         let new_daysInLeftMonth = this.monthConfig(this.state.monthCount);
         let new_availableDates = this.availableDates();
@@ -224,7 +221,7 @@ class CalendarModule extends React.Component {
     }
 
     render() {
-        console.log("rendered as: ", this.state.paused);
+        // console.log("Rendered as: ", this.state);
         return (
             <div className="calendar">
 
@@ -256,6 +253,7 @@ class CalendarModule extends React.Component {
                 {/* container for the actual calendars: left and right */}
                 <div className="calendar_container">
                 
+                    {/* Animation Div */}
                     <TweenOne animation={this.animation} moment={this.state.moment} paused={this.state.paused}>
                     <div className="calendar_fixed">
 
@@ -285,7 +283,7 @@ class CalendarModule extends React.Component {
                             endDateClicked={this.endDateClicked}
                             selectedDates={this.state.selectedDates} />
 
-                        {/* RIGHT CALENDAR IN SHOWING*/}
+                        {/* RIGHT CALENDAR MONTH SHOWING*/}
                         <MonthComponent className="month"
                             availability={this.state.availableDates}
                             minStay={this.props.user.minStay}
@@ -310,15 +308,14 @@ class CalendarModule extends React.Component {
                             inBetweenDates={this.state.inBetweenDates}
                             endDateClicked={this.endDateClicked}
                             selectedDates={this.state.selectedDates} />  
-
+                    
                     </div>
                     </TweenOne>
+
                 </div>
             </div>
         )
     }
 }
-
-// animateCSS('.month', 'bounce');
 
 export default CalendarModule;

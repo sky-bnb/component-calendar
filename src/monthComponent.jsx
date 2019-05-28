@@ -9,7 +9,7 @@ class MonthComponent extends React.Component {
 
         //bind functions
         this.resMaker = this.resMaker.bind(this);
-        this.mouseOverDuringResMode = this.mouseOverDuringResMode.bind(this);
+        this.onHoverDuringResMode = this.onHoverDuringResMode.bind(this);
         this.endDateClicked = this.endDateClicked.bind(this);
     }
 
@@ -28,8 +28,8 @@ class MonthComponent extends React.Component {
         }
     }
 
-    mouseOverDuringResMode(date) {
-        this.props.mouseOverDuringResMode(date);
+    onHoverDuringResMode(date) {
+        this.props.onHoverDuringResMode(date);
     }
 
     endDateClicked(date) {
@@ -71,7 +71,7 @@ class MonthComponent extends React.Component {
                             dayClicked={this.resMaker}
                             minStay={this.props.minStay}
                             availableNights={this.props.availability}
-                            mouseOverDuringResMode={this.mouseOverDuringResMode}
+                            onHoverDuringResMode={this.onHoverDuringResMode}
                             inBetweenDates={this.props.inBetweenDates}
                             endDateClicked={this.endDateClicked}
                             selectedDates = {this.props.selectedDates}

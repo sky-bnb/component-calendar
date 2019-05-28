@@ -10,12 +10,13 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.static('./public/dist'));
 server.use(bodyParser.json());
 
-server.post('/calendar', (req, res) => {
-    db.addCalendar(req.body);
-    res.send();
-});
+// server.post('/calendar', (req, res) => {
+//     db.addCalendar(req.body);
+//     res.status(201).res.send();
+// });
 
 server.get('/calendar', (req, res) => {
+  
     getReservations(req.body.id, (err, reservations) => {
       if (err) {
         res.status(404).

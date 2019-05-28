@@ -62,6 +62,7 @@
     outline: thin solid rgb(235, 235, 235);
     outline-width: 0px;
     outline-offset: -1px;
+    background: #ffffff;
 }
 
 .left_button:hover {
@@ -87,6 +88,7 @@
     outline: thin solid rgb(235, 235, 235);
     outline-width: 0px;
     outline-offset: -1px;
+    background: #ffffff;
 }
 
 .right_button:hover {
