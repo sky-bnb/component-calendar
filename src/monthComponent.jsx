@@ -1,7 +1,6 @@
 import React from 'react';
-import DayComponent from './dayComponent.jsx';
 import moment from 'moment';
-import Fade from 'react-reveal/Fade';
+import DayComponent from './dayComponent.jsx';
 
 class MonthComponent extends React.Component {
     constructor(props) {
@@ -38,7 +37,6 @@ class MonthComponent extends React.Component {
 
     render() {
         return (
-
             <div className="month">
 
                 {/* FOR MONTH HEADER WITH YEAR */}
@@ -46,7 +44,7 @@ class MonthComponent extends React.Component {
                     <p> {this.props.monthToRender} </p>
                 </div>
 
-                {/* FOR WEEKDAY ROW */}
+                {/* FOR WEEKDAY NAMES ROW */}
                 <div className="weekdays">
                     <div className="weekday"> Su </div>
                     <div className="weekday"> Mo </div>
@@ -78,10 +76,10 @@ class MonthComponent extends React.Component {
                         />
                     })}
                 </div>
+
             </div>
         )
     }
 }
 
-// export default {MonthComponent, handlePrevButtonomCalendarComponent};
 export default MonthComponent;
