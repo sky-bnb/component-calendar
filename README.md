@@ -18,22 +18,21 @@
 
 ## Usage
 
-> Some usage instructions
+Get AirBNB Calendar to render on page, from Port 3003.
 
 ## Requirements
-
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
-- Node 6.13.0
-- etc
 
 ## Development
 
 ### Installing Dependencies
 
-From within the root directory:
+In order, from within the root directory:
 
 ```sh
 npm install -g webpack
 npm install
+npm run build
+npm run seed-data
+npm run server-dev
+npm run live-server
 ```

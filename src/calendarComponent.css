@@ -1,0 +1,103 @@
+
+.calendar {
+    width: 614px;
+    background-color: #fff;
+    font-family: Quicksand;
+    color: rgb(79, 79, 79);
+}
+
+.availability {
+    height: 45px;
+    font-size: .95em;
+    margin: 0px 40px 0px 0px;
+}
+
+.minStay_and_clearDateButton {
+    display: flex;
+    display: relative;
+    justify-content: space-between;
+    
+}
+
+.clear_date {
+    color: rgb(0, 160, 177);
+    text-decoration: underline;
+}
+
+.hide_MinStayClrBtn {
+    height: 0px;
+}
+
+.show_MinStayClrBtn {
+    height: auto;
+}
+
+.buttons {
+    position: relative;
+}
+
+.arrows {
+    fill : rgb(128, 128, 128);
+}
+
+.left_button,
+.left_button.active.focus,
+.left_button.active:focus,
+.left_button.focus,
+.left_button.focus:active,  
+.left_button:active, 
+.left_button:focus {
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    height: 15px;
+    width: 20px;
+    border: .5px solid rgb(235, 235, 235);
+    border-radius: 4px;
+    margin: auto;
+    padding: 1% 1.5% 2% 1.5%; 
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    outline: thin solid rgb(235, 235, 235);
+    outline-width: 0px;
+    outline-offset: -1px;
+    background: #ffffff;
+}
+
+.left_button:hover {
+    border: 1px solid rgb(163, 163, 163);
+}
+
+.right_button,
+.right_button.active.focus,
+.right_button.active:focus,
+.right_button.focus,
+.right_button.focus:active,  
+.right_button:active,
+.right_button:focus {
+    position: absolute;
+    top: 12px;
+    right: 0px;
+    height: 15px;
+    width: 20px;
+    border: .5px solid rgb(235, 235, 235);
+    border-radius: 3px;
+    margin: auto;
+    padding: 1% 1.5% 2% 1.5%;
+    outline: thin solid rgb(235, 235, 235);
+    outline-width: 0px;
+    outline-offset: -1px;
+    background: #ffffff;
+}
+
+.right_button:hover {
+    border: 1px solid rgb(163, 163, 163);
+}
+
+.right_button__no-hover {
+    border: .5px solid rgb(220, 220, 220);
+}
+
+.arrow_button {
+    color: rgb(220, 220, 220);
+}

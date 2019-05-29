@@ -4,11 +4,11 @@
   "description": "booking calendar component",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack -d --watch",
-    "react-dev": "webpack -d --watch",
+    "build": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
-    "seed_data": "node database/seed_data.js"
+    "live-server": "live-server --host=localhost --port=3003",
+    "seed_data": "node database/seed_data.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,20 +23,32 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "airbnb-browser-shims": "^3.2.1",
+    "antd": "^3.18.2",
+    "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-loader": "^8.0.6",
     "body-parser": "^1.19.0",
+    "depcheck": "^0.8.0",
     "enzyme": "^3.9.0",
     "eslint": "^5.16.0",
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "jest": "^24.8.0",
+    "live-server": "^1.2.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "mongo": "^0.1.0",
+    "prop-types": "^15.7.2",
     "puppeteer": "^1.16.0",
+    "rc-tween-one": "^2.4.1",
     "react": "^16.8.6",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-animation": "^1.0.9",
+    "react-animations": "^1.0.0",
     "react-dom": "^16.8.6",
+    "react-pose": "^4.0.8",
+    "react-reveal": "^1.2.2",
+    "styled-components": "^4.2.0",
     "validator": "^10.11.0"
   },
   "devDependencies": {
@@ -44,7 +56,9 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "babel-preset-airbnb": "^3.2.1",
+    "css-loader": "^2.1.1",
     "mongoose": "^5.5.9",
+    "style-loader": "^0.23.1",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2"
   },
