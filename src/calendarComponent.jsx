@@ -13,61 +13,57 @@ class CalendarModule extends React.Component {
 
         this.state = {
             userRes: [],
+            monthCount: 0,
             moment: null,
             paused: true,
             reverse: false,
             resMakingMode: false,
             hideClearBtn: true,
-            monthCount: 0,
             inBetweenDates: [],
             selectedDates: [],
-            waitingLeftMonth: moment().subtract(1, 'months').format("MMMM YYYY"),
-            leftMonth: moment().format("MMMM YYYY"),
-            rightMonth: moment().add(1, "months").format("MMMM YYYY"),
-            waitingRightMonth: moment().add(2, "months").format("MMMM YYYY"),
             daysInWaitingLeftMonth: [],
             daysInLeftMonth: [],
             daysInRightMonth: [],
             daysInWaitingRightMonth: [],
-            availableDates: []
+            availableDates: [],
+            waitingLeftMonth: moment().subtract(1, 'months').format("MMMM YYYY"),
+            leftMonth: moment().format("MMMM YYYY"),
+            rightMonth: moment().add(1, "months").format("MMMM YYYY"),
+            waitingRightMonth: moment().add(2, "months").format("MMMM YYYY")
         };
 
         //bind functions
+        this.availableDates = this.availableDates.bind(this);
+        this.resMaker = this.resMaker.bind(this);
         this.monthConfig = this.monthConfig.bind(this);
         this.toPrevMonth = this.toPrevMonth.bind(this);
         this.toNextMonth = this.toNextMonth.bind(this);
-        this.availableDates = this.availableDates.bind(this);
-        this.resMaker = this.resMaker.bind(this);
-        this.mouseOverDuringResMode = this.mouseOverDuringResMode.bind(this);
+        this.onHoverDuringResMode = this.onHoverDuringResMode.bind(this);
         this.endDateClicked = this.endDateClicked.bind(this);
         this.clearDataClickHandler = this.clearDataClickHandler.bind(this);
     }
 
     //button functionality for arrows
     toPrevMonth(e) {
-
         //to reset pause state so it will do slide slide each button click
         if (this.state.paused === false) {
-            this.setState({
-                paused: true
-            });
+            this.setState({ paused: true });
         }
-        
-        this.animation = [{ marginLeft: -307, duration: 0 }, {marginLeft: 0, duration: 200}];
+        this.animation = [{ marginLeft: -307, duration: 0 }, { marginLeft: 0, duration: 200 }];
         let new_paused = false;
         let new_monthCount = this.state.monthCount - 1;
         let new_waitingLeftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(2, "months").format("MMMM YYYY");
         let new_leftMonth = moment(this.state.leftMonth, "MMMM YYYY").subtract(1, "months").format("MMMM YYYY");
         let new_rightMonth = this.state.leftMonth;
         let new_waitingRightMonth = this.state.rightMonth;
-        let new_daysInWaitingLeftMonth = this.monthConfig(new_monthCount-1);
+        let new_daysInWaitingLeftMonth = this.monthConfig(new_monthCount - 1);
         let new_daysInLeftMonth = this.monthConfig(new_monthCount);
         let new_daysInRightMonth = this.state.daysInLeftMonth;
         let new_daysInWaitingRightMonth = this.state.daysInRightMonth;
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
         this.setState({
-            paused : new_paused,
             moment: 0,
+            paused: new_paused,
             monthCount: new_monthCount,
             waitingLeftMonth: new_waitingLeftMonth,
             leftMonth: new_leftMonth,
@@ -79,25 +75,23 @@ class CalendarModule extends React.Component {
             daysInWaitingRightMonth: new_daysInWaitingRightMonth,
             availableDates: new_availableDates,
         },
-        () => {
-            //to reset transition slide   
-            this.setState({
-                moment: null,
+            () => {
+                //to reset transition slide   
+                this.setState({
+                    moment: null,
+                });
             });
-        });
     }
 
     toNextMonth(e) {
-
         //to reset pause state to be ready for slide transition
         if (this.state.paused === false) {
             this.setState({
                 paused: true
             });
         }
-        
+        this.animation = [{ marginLeft: 307, duration: 0 }, { marginLeft: 0, duration: 200 }];
         let new_paused = false;
-        this.animation = [{ marginLeft: 307, duration: 0 }, {marginLeft: 0, duration: 200}];
         let new_monthCount = this.state.monthCount + 1;
         let new_waitingLeftMonth = this.state.leftMonth;
         let new_leftMonth = this.state.rightMonth;
@@ -108,11 +102,10 @@ class CalendarModule extends React.Component {
         let new_daysInRightMonth = this.monthConfig(new_monthCount + 1);
         let new_daysInWaitingRightMonth = this.monthConfig(new_monthCount + 2);
         let new_availableDates = this.availableDates(new_daysInLeftMonth, new_daysInRightMonth);
-
         //change months when right button is clicked
         this.setState({
-            paused : new_paused,
             moment: 0,
+            paused: new_paused,
             monthCount: new_monthCount,
             waitingLeftMonth: new_waitingLeftMonth,
             leftMonth: new_leftMonth,
@@ -124,11 +117,11 @@ class CalendarModule extends React.Component {
             daysInWaitingRightMonth: new_daysInWaitingRightMonth,
             availableDates: new_availableDates,
         },
-        () => {
-            this.setState({
-              moment: null
+            () => {
+                this.setState({
+                    moment: null
+                });
             });
-        });
     }
 
     //returns initial available dates
@@ -171,7 +164,6 @@ class CalendarModule extends React.Component {
             }
             firstDay = moment().subtract(monthCountToUse, 'months').startOf('month').format('dd');
         }
-
         //check when the fhe first of the month is at, then return the array when you got all the placeholders
         let weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         for (let i = 0; i < 7; i++) {
@@ -185,7 +177,7 @@ class CalendarModule extends React.Component {
     }
 
     //allows for hovering of available consecutive dates
-    mouseOverDuringResMode(date) {
+    onHoverDuringResMode(date) {
         this.setState({
             inBetweenDates: this.state.availableDates.slice(0, this.state.availableDates.indexOf(date) + 1)
         });
@@ -222,20 +214,18 @@ class CalendarModule extends React.Component {
         });
     }
 
-    //get data from seed data to populate reservations
+    //get data from seed data to populate reservations, after hallow mount
     componentDidMount() {
-        // console.log("componenetDIDMount: ", this.state);
+        //bind keyword this back to this calendar class
         const stateChange = this;
         axios.get(`/calendar`)
             .then(function (response) {
                 //gets ALL of the 101-200 user's res dates
                 console.log("Axios Request Finished. Response: ", response.data);
-
-                //just uses the first user 101
                 //TODO: refactor get route to take in a specific username, instead of getting all users
                 let dates = response.data[0].dates_reserved;
                 stateChange.setState({
-                    userRes : dates
+                    userRes: dates
                 });
                 stateChange.setState({
                     availableDates: stateChange.availableDates(),
@@ -246,12 +236,13 @@ class CalendarModule extends React.Component {
                 });
             })
             .catch(function (error) {
-            console.log("Axios Request Error: ", error);
-            });        
+                console.log("Axios Request Error: ", error);
+            });
     }
 
     render() {
-        console.log("Rendered as: ", this.state);
+        
+        // console.log("Rendered Calendar with state as: ", this.state);
         return (
             <div className="calendar">
 
@@ -281,63 +272,58 @@ class CalendarModule extends React.Component {
 
                 {/* container for the actual calendars: left and right */}
                 <div className="calendar_container">
-                
                     {/* Animation Div */}
                     <TweenOne animation={this.animation} moment={this.state.moment} paused={this.state.paused}>
-                    <div className="calendar_fixed">
-
-                    {/* LEFT CALENDAR MONTH IN WAITING*/}
-                        <MonthComponent className="month"
-                            availability={this.state.availableDates}
-                            minStay={this.state.userRes.minStay}
-                            resMakingMode={this.state.resMakingMode}
-                            monthToRender={this.state.waitingLeftMonth}
-                            daysInThisMonth={this.state.daysInWaitingLeftMonth}
-                            mouseOverDuringResMode={this.mouseOverDuringResMode}
-                            resMaker={this.resMaker}
-                            inBetweenDates={this.state.inBetweenDates}
-                            endDateClicked={this.endDateClicked}
-                            selectedDates={this.state.selectedDates} />
-
-                        {/* LEFT CALENDAR MONTH SHOWING*/}
-                        <MonthComponent className="month"
-                            availability={this.state.availableDates}
-                            minStay={this.state.userRes.minStay}
-                            resMakingMode={this.state.resMakingMode}
-                            monthToRender={this.state.leftMonth}
-                            daysInThisMonth={this.state.daysInLeftMonth}
-                            mouseOverDuringResMode={this.mouseOverDuringResMode}
-                            resMaker={this.resMaker}
-                            inBetweenDates={this.state.inBetweenDates}
-                            endDateClicked={this.endDateClicked}
-                            selectedDates={this.state.selectedDates} />
-
-                        {/* RIGHT CALENDAR MONTH SHOWING*/}
-                        <MonthComponent className="month"
-                            availability={this.state.availableDates}
-                            minStay={this.state.userRes.minStay}
-                            resMakingMode={this.state.resMakingMode}
-                            monthToRender={this.state.rightMonth}
-                            daysInThisMonth={this.state.daysInRightMonth}
-                            mouseOverDuringResMode={this.mouseOverDuringResMode}
-                            resMaker={this.resMaker}
-                            inBetweenDates={this.state.inBetweenDates}
-                            endDateClicked={this.endDateClicked}
-                            selectedDates={this.state.selectedDates} />  
-
-                        {/* RIGHT CALENDAR IN WAITING SHOWING*/}
-                        <MonthComponent className="month"
-                            availability={this.state.availableDates}
-                            minStay={this.state.userRes.minStay}
-                            resMakingMode={this.state.resMakingMode}
-                            monthToRender={this.state.waitingRightMonth}
-                            daysInThisMonth={this.state.daysInWaitingRightMonth}
-                            mouseOverDuringResMode={this.mouseOverDuringResMode}
-                            resMaker={this.resMaker}
-                            inBetweenDates={this.state.inBetweenDates}
-                            endDateClicked={this.endDateClicked}
-                            selectedDates={this.state.selectedDates} />  
-                    </div>
+                        <div className="calendar_fixed">
+                            {/* LEFT CALENDAR MONTH IN WAITING*/}
+                            <MonthComponent className="month"
+                                availability={this.state.availableDates}
+                                minStay={this.state.userRes.minStay}
+                                resMakingMode={this.state.resMakingMode}
+                                monthToRender={this.state.waitingLeftMonth}
+                                daysInThisMonth={this.state.daysInWaitingLeftMonth}
+                                onHoverDuringResMode={this.onHoverDuringResMode}
+                                resMaker={this.resMaker}
+                                inBetweenDates={this.state.inBetweenDates}
+                                endDateClicked={this.endDateClicked}
+                                selectedDates={this.state.selectedDates} />
+                            {/* LEFT CALENDAR MONTH SHOWING*/}
+                            <MonthComponent className="month"
+                                availability={this.state.availableDates}
+                                minStay={this.state.userRes.minStay}
+                                resMakingMode={this.state.resMakingMode}
+                                monthToRender={this.state.leftMonth}
+                                daysInThisMonth={this.state.daysInLeftMonth}
+                                onHoverDuringResMode={this.onHoverDuringResMode}
+                                resMaker={this.resMaker}
+                                inBetweenDates={this.state.inBetweenDates}
+                                endDateClicked={this.endDateClicked}
+                                selectedDates={this.state.selectedDates} />
+                            {/* RIGHT CALENDAR MONTH SHOWING*/}
+                            <MonthComponent className="month"
+                                availability={this.state.availableDates}
+                                minStay={this.state.userRes.minStay}
+                                resMakingMode={this.state.resMakingMode}
+                                monthToRender={this.state.rightMonth}
+                                daysInThisMonth={this.state.daysInRightMonth}
+                                onHoverDuringResMode={this.onHoverDuringResMode}
+                                resMaker={this.resMaker}
+                                inBetweenDates={this.state.inBetweenDates}
+                                endDateClicked={this.endDateClicked}
+                                selectedDates={this.state.selectedDates} />
+                            {/* RIGHT CALENDAR IN WAITING SHOWING*/}
+                            <MonthComponent className="month"
+                                availability={this.state.availableDates}
+                                minStay={this.state.userRes.minStay}
+                                resMakingMode={this.state.resMakingMode}
+                                monthToRender={this.state.waitingRightMonth}
+                                daysInThisMonth={this.state.daysInWaitingRightMonth}
+                                onHoverDuringResMode={this.onHoverDuringResMode}
+                                resMaker={this.resMaker}
+                                inBetweenDates={this.state.inBetweenDates}
+                                endDateClicked={this.endDateClicked}
+                                selectedDates={this.state.selectedDates} />
+                        </div>
                     </TweenOne>
                 </div>
             </div>
