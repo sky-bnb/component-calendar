@@ -18,7 +18,7 @@
 
 ## Usage
 
-Get AirBNB Calendar to render.
+Get AirBNB Calendar to render on page, from Port 3003.
 
 ## Requirements
 
@@ -26,7 +26,7 @@ Get AirBNB Calendar to render.
 
 ### Installing Dependencies
 
-From within the root directory:
+In order, from within the root directory:
 
 ```sh
 npm install -g webpack
@@ -35,7 +35,4 @@ npm run build
 npm run server-dev
 npm run live-server
 npm run seed-data
-
-TODO:
-npm run test
 ```
