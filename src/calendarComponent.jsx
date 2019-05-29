@@ -2,6 +2,7 @@ import React from 'react';
 import MonthComponent from './monthComponent.jsx';
 import moment from 'moment';
 import TweenOne from 'rc-tween-one';
+import axios from 'axios';
 
 class CalendarModule extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class CalendarModule extends React.Component {
         this.animation = undefined;
 
         this.state = {
+            userRes: [],
             moment: null,
             paused: true,
             reverse: false,
@@ -23,11 +25,11 @@ class CalendarModule extends React.Component {
             leftMonth: moment().format("MMMM YYYY"),
             rightMonth: moment().add(1, "months").format("MMMM YYYY"),
             waitingRightMonth: moment().add(2, "months").format("MMMM YYYY"),
-            daysInWaitingLeftMonth: this.monthConfig(-1),
-            daysInLeftMonth: this.monthConfig(0),
-            daysInRightMonth: this.monthConfig(1),
-            daysInWaitingRightMonth: this.monthConfig(2),
-            availableDates: this.availableDates()
+            daysInWaitingLeftMonth: [],
+            daysInLeftMonth: [],
+            daysInRightMonth: [],
+            daysInWaitingRightMonth: [],
+            availableDates: []
         };
 
         //bind functions
@@ -136,7 +138,7 @@ class CalendarModule extends React.Component {
             let firstOfTheMonth = moment().startOf('month');
             arrayOfDays.push(moment(firstOfTheMonth).add({ days: i }).format("YYYY-MM-DD"));
         }
-        return arrayOfDays.filter(day => !this.props.user.dates_reserved.includes(day));
+        return arrayOfDays.filter(day => !this.state.userRes.includes(day));
     }
 
     //displays which days are available consecutively after chosen start date
@@ -220,8 +222,36 @@ class CalendarModule extends React.Component {
         });
     }
 
+    //get data from seed data to populate reservations
+    componentDidMount() {
+        // console.log("componenetDIDMount: ", this.state);
+        const stateChange = this;
+        axios.get(`/calendar`)
+            .then(function (response) {
+                //gets ALL of the 101-200 user's res dates
+                console.log("Axios Request Finished. Response: ", response.data);
+
+                //just uses the first user 101
+                //TODO: refactor get route to take in a specific username, instead of getting all users
+                let dates = response.data[0].dates_reserved;
+                stateChange.setState({
+                    userRes : dates
+                });
+                stateChange.setState({
+                    availableDates: stateChange.availableDates(),
+                    daysInWaitingLeftMonth: stateChange.monthConfig(-1),
+                    daysInLeftMonth: stateChange.monthConfig(0),
+                    daysInRightMonth: stateChange.monthConfig(1),
+                    daysInWaitingRightMonth: stateChange.monthConfig(2)
+                });
+            })
+            .catch(function (error) {
+            console.log("Axios Request Error: ", error);
+            });        
+    }
+
     render() {
-        // console.log("Rendered as: ", this.state);
+        console.log("Rendered as: ", this.state);
         return (
             <div className="calendar">
 
@@ -229,9 +259,8 @@ class CalendarModule extends React.Component {
                 <div className="availability"><h3><b>Availability</b></h3></div>
                 {(this.state.resMakingMode || (!this.state.resMakingMode && !this.state.hideClearBtn)) ?
                     <div className="minStay_and_clearDateButton">
-                        <div><p>{this.props.user.minStay} night minimum stay</p></div>
+                        <div><p>{this.state.userRes.minStay} night minimum stay</p></div>
                         <div className="clear_date" onClick={this.clearDataClickHandler}><p>Clear Date</p></div>
-
                     </div>
                     : null
                 }
@@ -260,7 +289,7 @@ class CalendarModule extends React.Component {
                     {/* LEFT CALENDAR MONTH IN WAITING*/}
                         <MonthComponent className="month"
                             availability={this.state.availableDates}
-                            minStay={this.props.user.minStay}
+                            minStay={this.state.userRes.minStay}
                             resMakingMode={this.state.resMakingMode}
                             monthToRender={this.state.waitingLeftMonth}
                             daysInThisMonth={this.state.daysInWaitingLeftMonth}
@@ -273,7 +302,7 @@ class CalendarModule extends React.Component {
                         {/* LEFT CALENDAR MONTH SHOWING*/}
                         <MonthComponent className="month"
                             availability={this.state.availableDates}
-                            minStay={this.props.user.minStay}
+                            minStay={this.state.userRes.minStay}
                             resMakingMode={this.state.resMakingMode}
                             monthToRender={this.state.leftMonth}
                             daysInThisMonth={this.state.daysInLeftMonth}
@@ -286,7 +315,7 @@ class CalendarModule extends React.Component {
                         {/* RIGHT CALENDAR MONTH SHOWING*/}
                         <MonthComponent className="month"
                             availability={this.state.availableDates}
-                            minStay={this.props.user.minStay}
+                            minStay={this.state.userRes.minStay}
                             resMakingMode={this.state.resMakingMode}
                             monthToRender={this.state.rightMonth}
                             daysInThisMonth={this.state.daysInRightMonth}
@@ -299,7 +328,7 @@ class CalendarModule extends React.Component {
                         {/* RIGHT CALENDAR IN WAITING SHOWING*/}
                         <MonthComponent className="month"
                             availability={this.state.availableDates}
-                            minStay={this.props.user.minStay}
+                            minStay={this.state.userRes.minStay}
                             resMakingMode={this.state.resMakingMode}
                             monthToRender={this.state.waitingRightMonth}
                             daysInThisMonth={this.state.daysInWaitingRightMonth}
@@ -308,10 +337,8 @@ class CalendarModule extends React.Component {
                             inBetweenDates={this.state.inBetweenDates}
                             endDateClicked={this.endDateClicked}
                             selectedDates={this.state.selectedDates} />  
-                    
                     </div>
                     </TweenOne>
-
                 </div>
             </div>
         )
