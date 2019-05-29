@@ -18,7 +18,7 @@
 
 ## Usage
 
-> Some usage instructions
+Get AirBNB Calendar to render.
 
 ## Requirements
 
@@ -31,4 +31,11 @@ From within the root directory:
 ```sh
 npm install -g webpack
 npm install
+npm run build
+npm run server-dev
+npm run live-server
+npm run seed-data
+
+TODO:
+npm run test
 ```
