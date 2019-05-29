@@ -3,6 +3,7 @@ import MonthComponent from './monthComponent.jsx';
 import moment from 'moment';
 import TweenOne from 'rc-tween-one';
 import axios from 'axios';
+import './calendarComponent.css';
 
 class CalendarModule extends React.Component {
     constructor(props) {
@@ -274,7 +275,7 @@ class CalendarModule extends React.Component {
                 <div className="calendar_container">
                     {/* Animation Div */}
                     <TweenOne animation={this.animation} moment={this.state.moment} paused={this.state.paused}>
-                        <div className="calendar_fixed">
+                            <div className="calendar_fixed">
                             {/* LEFT CALENDAR MONTH IN WAITING*/}
                             <MonthComponent className="month"
                                 availability={this.state.availableDates}

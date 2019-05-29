@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import DayComponent from './dayComponent.jsx';
+import './monthComponent.css';
 
 class MonthComponent extends React.Component {
     constructor(props) {

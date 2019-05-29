@@ -1,0 +1,36 @@
+.calendar_container {
+}
+
+.calendar_fixed {
+    margin: 0px 0px 0px -307px;
+    overflow: hidden;
+    display: flex;
+
+}
+
+.month {
+    padding: 0px 13px;
+    text-align: center;
+    width: 281px;
+}
+
+.month_title {
+    width: 281px;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.weekdays {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.weekday {
+    width: 40.143px;
+    height: 26px;
+    align-items: center;
+    border-radius: 11px; 
+    font-size: .75em;
+}
