@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CalendarModule from './calendarComponent.jsx';
-import axios from 'axios';
 
 //placeholder data to work with front end branch for right now
 const user108sampleData = [
@@ -56,6 +55,6 @@ const user108sampleData = [
 ][0];
 
 //use get method to get user listing availability data
-//TODO: axios get to get user data
+//TODO: get user data from server
 
-ReactDOM.render(<CalendarModule user={user108sampleData} />, document.getElementById("calendar_module"));
+ReactDOM.render(<CalendarModule />, document.getElementById("calendar_module"));

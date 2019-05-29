@@ -28,4 +28,17 @@ const addCalendar = (resObj) => {
     });
 };
 
-module.exports = { Calendar, addCalendar, calendarSchema };
+
+const getReservations = (cb) => {
+    return Calendar.find({}, (err, reservations) => {
+        if (err) {
+            cb(err, null);
+        } else {
+            cb(null, reservations);
+        }
+    });
+};
+
+const getCount = () => Calendar.estimatedDocumentCount();
+
+module.exports = { Calendar, addCalendar, calendarSchema, getCount, getReservations };
