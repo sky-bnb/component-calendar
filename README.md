@@ -32,7 +32,7 @@ In order, from within the root directory:
 npm install -g webpack
 npm install
 npm run build
+npm run seed-data
 npm run server-dev
 npm run live-server
-npm run seed-data
 ```
