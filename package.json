@@ -7,7 +7,7 @@
     "build": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
     "seed_data": "node database/seed_data.js",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
