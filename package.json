@@ -6,7 +6,6 @@
   "scripts": {
     "build": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
-    "live-server": "live-server --host=localhost --port=3003",
     "seed_data": "node database/seed_data.js",
     "test": "jest"
   },
