@@ -219,7 +219,7 @@ class CalendarModule extends React.Component {
     componentDidMount() {
         //bind keyword this back to this calendar class
         const stateChange = this;
-        axios.get("http://127.0.0.1:3003/calendar")
+        axios.get("http://18.219.214.56/calendar")
             .then(function (response) {
                 //gets ALL of the 101-200 user's res dates
                 console.log("Axios Request Finished. Response: ", response.data);

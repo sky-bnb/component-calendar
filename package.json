@@ -4,10 +4,12 @@
   "description": "booking calendar component",
   "private": true,
   "scripts": {
+    "start": "npm run build",
     "build": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
     "seed_data": "node database/seed_data.js",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "deploy": "npm run seed_data && npm run server-dev"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "mongo": "^0.1.0",
+    "nodemon": "^1.19.1",
     "prop-types": "^15.7.2",
     "puppeteer": "^1.16.0",
     "rc-tween-one": "^2.4.1",

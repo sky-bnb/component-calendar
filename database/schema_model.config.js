@@ -26,7 +26,6 @@ const addCalendar = (resObj) => {
     });
 };
 
-//TODO: have the first param to this function be the axios req ID of a specific user
 const getReservations = (cb) => {
     return Calendar.find({}, (err, reservations) => {
         if (err) {
