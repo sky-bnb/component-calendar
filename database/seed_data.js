@@ -5,7 +5,7 @@ const { Calendar } = require('./schema_model.config');
 let reservations = (() => {
     var arrayOfReservations = [];
     while (arrayOfReservations.length < 175) {
-        var newDate = moment().add(Math.floor((Math.random() * 365) + 1), 'days').format("YYYY-MM-DD");
+        var newDate = moment().add(Math.floor((Math.random() * 365)+1), 'days').format("YYYY-MM-DD");
         if (!arrayOfReservations.includes(newDate)) {
             arrayOfReservations.push(newDate);
         }

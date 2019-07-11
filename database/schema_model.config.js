@@ -27,11 +27,11 @@ const addCalendar = (resObj) => {
 };
 
 const getReservations = (cb) => {
-    return Calendar.find({}, (err, reservations) => {
+    return Calendar.find({}, (err, reservation) => {
         if (err) {
             cb(err, null);
         } else {
-            cb(null, reservations);
+            cb(null, reservation);
         }
     });
 };
