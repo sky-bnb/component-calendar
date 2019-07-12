@@ -21,9 +21,9 @@
 - [Feedback](#feedback)
 - [Contributors](#contributors)
 - [Build Process](#build-process)
-- [Backers](#backers-)
-- [Sponsors](#sponsors-)
-- [Acknowledgments](#acknowledgments)
+- [Backers](#backers-) *coming soon
+- [Sponsors](#sponsors-) *coming soon
+- [Acknowledgments](#acknowledgments) *coming soon
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
