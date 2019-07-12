@@ -53,7 +53,7 @@ A few of the things you can do with Skybnb:
 
 ## Feedback
 
-Feel free to send us feedback via [email](alerterb@gmail.com) or [file an issue](https://github.com/albthere/issues/new). New features requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
+Feel free to send us feedback via [email](alerterb@gmail.com) or [file an issue](https://github.com/albthere/issues/new). New feature requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
 
 # Contributors
 
