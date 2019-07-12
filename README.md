@@ -53,7 +53,7 @@ A few of the things you can do with Skybnb:
 
 ## Feedback
 
-Feel free to send us feedback via [email](alerterb@gmail.com) or [file an issue](https://github.com/albthere/issues/new). Feature requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
+Feel free to send us feedback via [email](alerterb@gmail.com) or [file an issue](https://github.com/albthere/issues/new). New features requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
 
 # Contributors
 
@@ -63,29 +63,29 @@ This project follows the [all-contributors](https://github.com/albthere) specifi
 
 - Follow the [React Guide](https://reactjs.org/docs/getting-started.html) for getting started building a web app project with React code. 
 
+1. installs webpack bundle, when ran in root directory
+
 ```sh
 npm install -g webpack
 ```
-installs webpack bundle, when ran in root directory
 
-
-1. installs npm, ran in root directory
+2. installs npm, ran in root directory
 ```sh
 npm install
 ```
 
-2. creates webpack bundle, output is in dist folder
+3. creates webpack bundle, output is in dist folder
 ```sh
 npm run build
 ```
 
-3. seed data to work with to simulate future reservations from db
+4. seed data to work with to simulate future reservations from db
 ```sh
 npm run seed-data
 ```
 
 
-4. runs node.js server to run app
+5. runs node.js server to run app
 ```sh
 npm run server-dev
 ```
