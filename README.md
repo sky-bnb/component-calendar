@@ -35,8 +35,8 @@ Open Source, feature-rich calendar component made for making reservations and pi
 
 A few of the things you can do with Skybnb:
 
-* Stateful rendering of full calendar
-* Animation for Slide In and Slide Out of Months
+* Accurate, stateful rendering of each component of the calendar
+* Slide In and Slide Out Animation when prev/next buttons clicked, using [AntMotion](https://motion.ant.design/) library.
 * Full functionality rendering of dates, accurate real-time and current months.
 * RESTful API in place for inserting, reading, updating reservations to database (MongoDB)
 
