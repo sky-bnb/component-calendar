@@ -77,7 +77,6 @@ class MonthComponent extends React.Component {
                         />
                     })}
                 </div>
-
             </div>
         )
     }
