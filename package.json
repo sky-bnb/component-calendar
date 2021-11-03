@@ -51,7 +51,7 @@
     "react-pose": "^4.0.8",
     "react-reveal": "^1.2.2",
     "styled-components": "^4.2.0",
-    "validator": "^10.11.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
